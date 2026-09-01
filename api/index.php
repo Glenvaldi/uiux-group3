@@ -1,9 +1,7 @@
 <?php
+// Tampilkan teks biasa untuk mengecek apakah PHP berjalan
+echo "<h1>TESTING PHP VERCEL</h1>";
+echo "<p>Jika tulisan ini muncul, berarti mesin PHP Vercel berfungsi dengan normal dan masalahnya ada di dalam folder Laravel.</p>";
 
-// Paksa PHP untuk menampilkan error fatal di layar
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-// Panggil file index asli Laravel
-require __DIR__ . '/../public/index.php';
+// Kita jadikan komentar (nonaktifkan) pemanggilan Laravel sementara waktu
+// require __DIR__ . '/../public/index.php';
