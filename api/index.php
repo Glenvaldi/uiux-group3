@@ -1,16 +1,26 @@
 <?php
 
-// 1. PAKSA PENGATURAN (Bypass Vercel Environment Variables)
-$_ENV['APP_CONFIG_CACHE'] = '/tmp/config.php';
-$_ENV['APP_EVENTS_CACHE'] = '/tmp/events.php';
-$_ENV['APP_PACKAGES_CACHE'] = '/tmp/packages.php';
-$_ENV['APP_ROUTES_CACHE'] = '/tmp/routes.php';
-$_ENV['APP_SERVICES_CACHE'] = '/tmp/services.php';
-$_ENV['VIEW_COMPILED_PATH'] = '/tmp/framework/views';
-$_ENV['SESSION_DRIVER'] = 'cookie';
-$_ENV['CACHE_STORE'] = 'array'; 
-$_ENV['CACHE_DRIVER'] = 'array'; 
-$_ENV['LOG_CHANNEL'] = 'stderr';
+// 1. SUPER GOD MODE: Paksa semua environment terbaca oleh Vercel & Laravel
+$envs = [
+    'APP_CONFIG_CACHE' => '/tmp/config.php',
+    'APP_EVENTS_CACHE' => '/tmp/events.php',
+    'APP_PACKAGES_CACHE' => '/tmp/packages.php',
+    'APP_ROUTES_CACHE' => '/tmp/routes.php',
+    'APP_SERVICES_CACHE' => '/tmp/services.php',
+    'VIEW_COMPILED_PATH' => '/tmp/framework/views',
+    'SESSION_DRIVER' => 'cookie',
+    'CACHE_STORE' => 'array',
+    'CACHE_DRIVER' => 'array',
+    'LOG_CHANNEL' => 'stderr',
+    'DB_CONNECTION' => 'sqlite', // Mencegah Laravel mencari MySQL
+    'DB_DATABASE' => '/tmp/database.sqlite'
+];
+
+foreach ($envs as $key => $value) {
+    putenv($key . '=' . $value);
+    $_ENV[$key] = $value;
+    $_SERVER[$key] = $value;
+}
 
 // 2. BUAT FOLDER PENAMPUNGAN OTOMATIS
 $directories = [
