@@ -1,6 +1,7 @@
 <?php
 
-// Mengarahkan file cache sementara ke folder /tmp milik Vercel
+// Memaksa Laravel membuang log dan cache ke sistem Vercel yang diizinkan (/tmp)
+putenv('LOG_CHANNEL=stderr');
 putenv('APP_CONFIG_CACHE=/tmp/config.php');
 putenv('APP_EVENTS_CACHE=/tmp/events.php');
 putenv('APP_PACKAGES_CACHE=/tmp/packages.php');
