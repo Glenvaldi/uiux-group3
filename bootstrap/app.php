@@ -4,7 +4,6 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
-// Tampung konfigurasi aplikasi ke dalam variabel $app
 $app = Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
@@ -15,14 +14,20 @@ $app = Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        // JURUS HACK: Cegat error aslinya sebelum Laravel mencoba menggambar View!
+        $exceptions->render(function (\Throwable $e) {
+            echo "<h1 style='color:purple;'>BOS TERAKHIR DITEMUKAN!</h1>";
+            echo "<b>Pesan Asli:</b> " . $e->getMessage() . "<br><br>";
+            echo "<b>File Asli:</b> " . $e->getFile() . "<br>";
+            echo "<b>Baris:</b> " . $e->getLine() . "<br>";
+            die(); // Matikan sistem agar tidak lanjut memanggil 'view'
+        });
     })->create();
 
-// JURUS PAMUNGKAS: Paksa semua file sementara (log, cache, session) pindah ke /tmp
 // 1. Pindah storage ke /tmp
 $app->useStoragePath('/tmp');
 
-// 2. Buat folder-folder yang dibutuhkan Vercel secara otomatis
+// 2. Buat folder-folder Vercel
 $directories = [
     '/tmp/framework/cache/data',
     '/tmp/framework/sessions',
