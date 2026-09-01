@@ -19,6 +19,22 @@ $app = Application::configure(basePath: dirname(__DIR__))
     })->create();
 
 // JURUS PAMUNGKAS: Paksa semua file sementara (log, cache, session) pindah ke /tmp
+// 1. Pindah storage ke /tmp
 $app->useStoragePath('/tmp');
+
+// 2. Buat folder-folder yang dibutuhkan Vercel secara otomatis
+$directories = [
+    '/tmp/framework/cache/data',
+    '/tmp/framework/sessions',
+    '/tmp/framework/testing',
+    '/tmp/framework/views',
+    '/tmp/logs'
+];
+
+foreach ($directories as $dir) {
+    if (!is_dir($dir)) {
+        mkdir($dir, 0777, true);
+    }
+}
 
 return $app;
