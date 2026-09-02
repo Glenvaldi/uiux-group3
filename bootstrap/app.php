@@ -14,13 +14,15 @@ $app = Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        // JURUS HACK: Cegat error aslinya sebelum Laravel mencoba menggambar View!
+        // JURUS HACK: Cetak jejak langkah untuk mencari pelakunya!
         $exceptions->render(function (\Throwable $e) {
             echo "<h1 style='color:purple;'>BOS TERAKHIR DITEMUKAN!</h1>";
             echo "<b>Pesan Asli:</b> " . $e->getMessage() . "<br><br>";
             echo "<b>File Asli:</b> " . $e->getFile() . "<br>";
-            echo "<b>Baris:</b> " . $e->getLine() . "<br>";
-            die(); // Matikan sistem agar tidak lanjut memanggil 'view'
+            echo "<b>Baris:</b> " . $e->getLine() . "<br><br>";
+            echo "<b>JEJAK LANGKAH (STACK TRACE):</b><br>";
+            echo "<pre style='background:#eee; padding:10px; font-size:12px; white-space:pre-wrap;'>" . $e->getTraceAsString() . "</pre>";
+            die();
         });
     })->create();
 
